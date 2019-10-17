@@ -37,11 +37,11 @@ private:
 
 	//Private methods
 	void AdminFile(const char *FileName);
-	void StoreVertexPos(xmlDoc* File);
-	void StoreNormals(xmlDoc* File);
-	void StoreUV(xmlDoc* File);
-	void StoreSceneName(xmlDoc* File);
-	void StoreModelName(xmlDoc* File);
+	void StoreVertexPos();
+	void StoreNormals();
+	void StoreUV();
+	void StoreSceneName();
+	void StoreModelName();
 
 	//Data
 	xmlDoc* File;

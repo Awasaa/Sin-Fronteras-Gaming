@@ -4,7 +4,7 @@
 
 int main(void)
 {
-	ColladaToBin model("test/prueba2.dae");
+	ColladaToBin model("test/prueba.dae");
 
 	std::cout << model.getStatus()  << std::endl;
 
