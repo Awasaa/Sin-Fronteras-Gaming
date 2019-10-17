@@ -76,10 +76,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\User\source\repos\Sin Fronteras Gaming\ColladaReader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Irma\source\repos\Sin-Fronteras-Gaming\ColladaReader\include;C:\Users\User\source\repos\Sin Fronteras Gaming\ColladaReader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\User\source\repos\Sin Fronteras Gaming\ColladaReader\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Irma\source\repos\Sin-Fronteras-Gaming\ColladaReader\lib;C:\Users\User\source\repos\Sin Fronteras Gaming\ColladaReader\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libxml2.lib;iconv.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
