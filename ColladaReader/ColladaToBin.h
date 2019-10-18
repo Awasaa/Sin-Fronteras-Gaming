@@ -29,6 +29,10 @@ public:
 	//Getters
 	string& getStatus(void) { return statusStr; }
 	string& getModelName(void) { return ModelName; }
+	string& getSceneName(void) { return SceneName; }
+	string& getVertexStr(void) { return VertexStr; }
+	string& getNormalsStr(void) { return NormalsStr; }
+	string& getUVstr(void) { return UVstr; }
 
 	//Method
 	bool isOpened(void);

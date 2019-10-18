@@ -227,7 +227,7 @@ ColladaToBin::FindNode(string NodeName, int NodeNamedValid, xmlNode* TreeNode)
 	}
 	else
 	{
-		statusStr = "Corrupted XML or invalid element";
+		statusStr = "Corrupted COLLADA or invalid element";
 		status = COLLADA_TO_BIN_STATE::FAILED;
 	}
 
@@ -250,7 +250,7 @@ ColladaToBin::FindAttribute(string AttributeName, xmlNode* TreeNode)
 	}
 	else
 	{
-		statusStr = "Corrupted XML or invalid atributte";
+		statusStr = "Corrupted COLLADA or invalid atributte";
 		status = COLLADA_TO_BIN_STATE::FAILED;
 	}
 
