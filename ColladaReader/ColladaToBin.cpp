@@ -22,10 +22,10 @@ ColladaToBin::ColladaToBin(string &FileName)
 
 ColladaToBin::~ColladaToBin()
 {
-	xmlUnlinkNode(Node);
-	xmlFreeNode(Node);
-	xmlUnlinkNode(ReturnNode);
-	xmlFreeNode(ReturnNode);
+	//xmlUnlinkNode(Node);
+	//xmlUnlinkNode(ReturnNode);
+	//xmlFreeNode(ReturnNode);
+	//xmlFreeNode(Node);
 	xmlFreeDoc(File);
 	xmlCleanupParser();
 }
@@ -77,13 +77,19 @@ ColladaToBin::StoreVertexPos()
 {
 	 Node = xmlDocGetRootElement(File)->children; //Acces first COLLADA´s child (asset Node)
 
-	vector<string> DataPath = { "library_geometries","1","geometry","1","mesh","1","source","1","float_array" ,"1" };
+	vector<string> VertexPath = { "library_geometries","1","geometry","1","mesh","1","source","1","float_array" ,"1" };
+	vector<string> VertexConfigPath = { "technique_common","1","accessor","1"};
 
-	if (Node = SearchAdmin(DataPath, Node))
+	if (Node = SearchAdmin(VertexPath, Node))
 	{
-		cout << "Vertex: \n" << Node->content << endl;
+		VertexStr = (const char *)(Node->children->content);
+		cout << "Vertex: \n" << VertexStr << endl;
+		if (Node = SearchAdmin(VertexConfigPath, Node))
+		{
+			cout << "Vertex count: " << FindAttribute("count", Node) << endl;
+			cout << "Vertex div: " << FindAttribute("stride", Node) << endl;
+		}
 	}
-
 }
 
 void
@@ -91,11 +97,19 @@ ColladaToBin::StoreNormals()
 {
 	Node = xmlDocGetRootElement(File)->children; //Acces first COLLADA´s child (asset Node)
 
-	vector<string> DataPath = { "library_geometries","1","geometry","1","mesh","1","source","2","float_array" ,"1" };
+	vector<string> NormalsPath = { "library_geometries","1","geometry","1","mesh","1","source","2","float_array" ,"1" };
+	vector<string> NormalsConfigPath = { "technique_common","1","accessor","1" };
 
-	if (Node = SearchAdmin(DataPath, Node))
+	if (Node = SearchAdmin(NormalsPath, Node))
 	{
-		cout << "Normals: \n" << Node->content << endl;
+		NormalsStr = (const char *)(Node->children->content);
+		cout << "Normals: \n" << NormalsStr << endl;
+		if (Node = SearchAdmin(NormalsConfigPath, Node))
+		{
+			cout << "Normals count: " << FindAttribute("count", Node) << endl;
+			cout << "Normals div: " << FindAttribute("stride", Node) << endl;
+		}
+
 	}
 
 }
@@ -105,11 +119,18 @@ ColladaToBin::StoreUV()
 {
 	Node = xmlDocGetRootElement(File)->children; //Acces first COLLADA´s child (asset Node)
 
-	vector<string> DataPath = { "library_geometries","1","geometry","1","mesh","1","source","3","float_array" ,"1" };
+	vector<string> UVPath = { "library_geometries","1","geometry","1","mesh","1","source","3","float_array" ,"1" };
+	vector<string> UVConfigPath = { "technique_common","1","accessor","1" };
 
-	if (Node = SearchAdmin(DataPath, Node))
+	if (Node = SearchAdmin(UVPath, Node))
 	{
-		cout << "UV: \n" << Node->content << endl;
+		UVstr = (const char *)(Node->children->content);
+		cout << "UV: \n" << UVstr << endl;
+		if (Node = SearchAdmin(UVConfigPath, Node))
+		{
+			cout << "UV points count: " << FindAttribute("count", Node) << endl;
+			cout << "UV div: " << FindAttribute("stride", Node) << endl;
+		}
 	}
 
 }
@@ -124,14 +145,13 @@ ColladaToBin::StoreSceneName()
 
 	if (Node = SearchAdmin(DataPath, Node))
 	{
-		xmlChar * str = xmlGetProp(Node->parent, (xmlChar*)"name");
-
-		if (str)
+		SceneName = FindAttribute(AtributteName, Node);
+		
+		if (!SceneName.empty())
 		{
-			cout << "Scene Name: " << str << endl;;
-			xmlFree(str);
+			cout << "Scene Name:" << SceneName << endl;
 		}
-
+		
 	}
 
 }
@@ -146,19 +166,12 @@ ColladaToBin::StoreModelName()
 
 	if (Node = SearchAdmin(DataPath, Node))
 	{
-		xmlChar * str = xmlGetProp(Node->parent, (xmlChar*)"name");
+		ModelName = FindAttribute(AtributteName, Node);
 
-		if (str)
+		if (!SceneName.empty())
 		{
-			cout << "Model Name: " << str << endl;
+			cout << "Model Name:" << ModelName << endl;
 		}
-		else
-		{
-			statusStr = "Corrupted XML or invalid atributte";
-			status = COLLADA_TO_BIN_STATE::FAILED;
-		}
-
-		xmlFree(str);
 	}
 
 }
@@ -178,7 +191,7 @@ ColladaToBin::SearchAdmin(vector<string> DataPath, xmlNode* Node)
 		i += 2;
 	} while (Node && i < DataPath.size());
 
-	return Node;
+	return Node->parent;
 }
 
 xmlNode*
@@ -221,34 +234,31 @@ ColladaToBin::FindNode(string NodeName, int NodeNamedValid, xmlNode* TreeNode)
 	return ReturnNode;
 }
 
-/*
+
 string
 ColladaToBin::FindAttribute(string AttributeName, xmlNode* TreeNode)
 {
-	xmlAttr* attribute = TreeNode->properties;
+	xmlChar * str = nullptr;
 	string ReturnStr;
-	bool AtributteFinded = false;
 
-	while (attribute)
+	str = xmlGetProp(TreeNode, (xmlChar*)AttributeName.c_str());
+	
+
+	if (str)
 	{
-		if ((const char *)attribute->name == AttributeName)
-		{
-			ReturnStr = (const char *)attribute->doc;
-			bool AtributteFinded = true;
-		}
-		
-		attribute = attribute->next;
+		ReturnStr = (const char *)str;
 	}
-
-	if (!AtributteFinded)
+	else
 	{
 		statusStr = "Corrupted XML or invalid atributte";
 		status = COLLADA_TO_BIN_STATE::FAILED;
 	}
 
+	xmlFree(str);
+
 	return ReturnStr;
 }
 
-*/
+
 
 

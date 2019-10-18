@@ -44,15 +44,21 @@ private:
 	void StoreModelName();
 	xmlNode* SearchAdmin(vector<string> DataPath, xmlNode* FirstNode);
 	xmlNode* FindNode(string NodeName, int NodeNamedValid, xmlNode* TreeNode);
-	//string FindAttribute(string AttributeName, xmlNode* TreeNode);
+	string FindAttribute(string AttributeName, xmlNode* TreeNode);
 
 	//Data
 	xmlDoc* File;		//XML file
 	xmlNode* Node;		//Multiprupose Node
 	xmlNode* ReturnNode;	//Use to return Node pointer
-	string statusStr;
+		
 	string SceneName;
 	string ModelName;
+	string VertexStr;
+	string NormalsStr;
+	string UVstr;
+
+
+	string statusStr;
 	COLLADA_TO_BIN_STATE status;
 
 };
